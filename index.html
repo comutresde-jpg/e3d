@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estudio Tresde · Ingeniería, Diseño & Fabricación Aditiva en Córdoba</title>
+  <meta name="description" content="Desarrollo de piezas técnicas, series cortas y prototipado funcional en Córdoba, Argentina. Más de 9 años resolviendo fricciones productivas sin matrices costosas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0A0D12;
+      --surface: #121721;
+      --card: #18202E;
+      --card-hover: #1E283A;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(255, 255, 255, 0.16);
+      --orange: #FF6B35;
+      --orange-glow: rgba(255, 107, 53, 0.22);
+      --orange-soft: rgba(255, 107, 53, 0.1);
+      --cyan: #00E5FF;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+      --faint: #64748B;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Patrón de Rejilla Técnica Industrial */
+    .grid-blueprint {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Topbar Fija */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(10, 13, 18, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-cube {
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--orange);
+      display: grid;
+      place-items: center;
+      position: relative;
+      border-radius: 4px;
+      background: var(--orange-soft);
+    }
+
+    .brand-cube::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--orange);
+      border-radius: 2px;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-city {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .btn-quote {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      background: var(--orange);
+      color: #0A0D12;
+      transition: all 0.25s ease;
+      font-family: var(--mono);
+    }
+
+    .btn-quote:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 18px var(--orange-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 150px 0 90px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+      background: var(--orange-soft);
+      border: 1px solid rgba(255, 107, 53, 0.35);
+      margin-bottom: 24px;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--orange);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--orange);
+    }
+
+    .hero-title {
+      font-size: clamp(38px, 4.4vw, 62px);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero-lead {
+      font-size: clamp(16px, 1.4vw, 18px);
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 580px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #0A0D12;
+      font-weight: 700;
+      font-size: 14.5px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 25px -5px var(--orange-glow);
+    }
+
+    .btn-primary:hover {
+      background: #ff7d4d;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -5px var(--orange-glow);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid var(--border-bright);
+      font-weight: 500;
+      font-size: 14.5px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--text);
+    }
+
+    /* Terminal HUD de Capacidades */
+    .hud-box {
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 14px;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--faint);
+    }
+
+    .hud-metric {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .metric-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 8px;
+    }
+
+    .metric-val {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .metric-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .hud-route {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px dashed var(--border-bright);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hud-route span strong {
+      color: var(--text);
+    }
+
+    /* Sección de Comparación Crítica (Fricción Tradicional vs Impresión 3D) */
+    .section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-lead {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 52px;
+    }
+
+    .comparison-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 30px;
+    }
+
+    .comparison-card.highlight {
+      border-color: rgba(255, 107, 53, 0.4);
+      background: linear-gradient(180deg, var(--surface) 0%, rgba(255, 107, 53, 0.04) 100%);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .comparison-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comparison-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .comparison-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .comparison-item.bad svg {
+      color: #EF4444;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .comparison-item.good {
+      color: var(--text);
+    }
+
+    .comparison-item.good svg {
+      color: var(--orange);
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* Soluciones y Workflow */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 26px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .service-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-3px);
+      background: var(--card-hover);
+    }
+
+    .service-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .service-card h4 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .service-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      color: var(--faint);
+    }
+
+    /* Selector Interactivo de Materiales */
+    .materials-board {
+      margin-top: 52px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .materials-header {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-bottom: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .mat-tab {
+      padding: 18px 12px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .mat-tab:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .mat-tab.active {
+      color: var(--orange);
+      background: var(--orange-soft);
+      border-bottom-color: var(--orange);
+    }
+
+    .material-content {
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .mat-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .mat-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .mat-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .spec-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .spec-label {
+      color: var(--faint);
+    }
+
+    .spec-val {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* FAQ Desplegable */
+    .faq-list {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 900px;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--border-bright);
+    }
+
+    .faq-question {
+      padding: 20px 24px;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--sans);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-icon {
+      font-family: var(--mono);
+      font-size: 18px;
+      color: var(--orange);
+      transition: transform 0.2s ease;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px;
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    /* CTA Conversión Final */
+    .cta-box {
+      margin-top: 96px;
+      margin-bottom: 96px;
+      background: linear-gradient(180deg, var(--surface) 0%, #161D29 100%);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 16px;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .cta-box h2 {
+      font-size: clamp(30px, 3.8vw, 46px);
+      letter-spacing: -0.02em;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 36px;
+    }
+
+    .channels-grid {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .channel-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      font-family: var(--mono);
+    }
+
+    .btn-wsp {
+      background: #25D366;
+      color: #06190E;
+    }
+
+    .btn-wsp:hover {
+      background: #20BD5A;
+      transform: translateY(-2px);
+    }
+
+    .btn-in {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-bright);
+      color: var(--text);
+    }
+
+    .btn-in:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #0A66C2;
+      color: #38BDF8;
+      transform: translateY(-2px);
+    }
+
+    .btn-ig {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-bright);
+      color: var(--text);
+    }
+
+    .btn-ig:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #E1306C;
+      color: #F472B6;
+      transform: translateY(-2px);
+    }
+
+    /* Footer Técnico */
+    .footer {
+      border-top: 1px solid var(--border);
+      background: #080B0F;
+      padding: 60px 0 36px;
+      font-size: 13px;
+      color: var(--faint);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand h4 {
+      color: var(--text);
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .footer-brand p {
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 380px;
+    }
+
+    .footer-col h5 {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--text);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+    }
+
+    .badge-jc {
+      color: var(--text);
+      text-decoration: none;
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .badge-jc:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .materials-header {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .material-content {
+        grid-template-columns: 1fr;
+        padding: 24px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-blueprint"></div>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <a href="#" class="brand">
+      <div class="brand-cube"></div>
+      <div class="brand-name">
+        Estudio Tresde
+        <span class="brand-city">Córdoba · AR</span>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#soluciones">Servicios</a>
+      <a href="#comparativa">Vs. Inyección</a>
+      <a href="#materiales">Materiales</a>
+      <a href="#faq">Preguntas</a>
+      <a href="https://wa.me/5493515202895?text=Hola%20Estudio%20Tresde,%20quisiera%20cotizar%20un%20proyecto." target="_blank" rel="noopener" class="btn-quote">
+        [ Pedir Presupuesto ]
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge-status">
+          <span class="pulse-dot"></span>
+          PLANTA OPERATIVA ACTIVA · CÓRDOBA CAPITAL
+        </div>
+        <h1 class="hero-title">
+          Piezas técnicas y series cortas <em>sin matrices costosas.</em>
+        </h1>
+        <p class="hero-lead">
+          Eliminamos los tiempos muertos y barreras de la industria plástica tradicional. Desarrollamos prototipos funcionales y producimos en serie con <strong>+20 equipos de fabricación aditiva</strong> y asesoramiento de ingeniería en Córdoba.
+        </p>
+        <div class="hero-actions">
+          <a href="https://wa.me/5493515202895?text=Hola%20Estudio%20Tresde,%20tengo%20un%20archivo%20para%20cotizar." target="_blank" rel="noopener" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Cotizar por WhatsApp
+          </a>
+          <a href="#materiales" class="btn-outline">
+            Ver Fichas Técnicas
+          </a>
+        </div>
+      </div>
+
+      <!-- HUD Técnico -->
+      <div class="hud-box">
+        <div class="hud-header">
+          <span>SISTEMA DE PRODUCCIÓN</span>
+          <span>ESTUDIO TRESDE // 2026</span>
+        </div>
+        <div class="hud-metric">
+          <div class="metric-card">
+            <div class="metric-val">+9 AÑOS</div>
+            <div class="metric-desc">Trayectoria en desarrollo industrial y matricería digital</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">20+ EQUIPOS</div>
+            <div class="metric-desc">Granja de impresión activa para entregas programadas</div>
+          </div>
+        </div>
+        <div class="hud-route">
+          <span>ENTRADA: <strong>Planos técnicos, croquis o pieza física (Escaneo 3D)</strong></span>
+          <span>PROCESO: <strong>Modelado CAD + Optimización de estructura interna</strong></span>
+          <span>ENTREGA: <strong>Envíos a Córdoba y todo el país</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparativa Crítica: Fricción vs Solución -->
+  <section class="section" id="comparativa">
+    <div class="container">
+      <span class="section-tag">Eficiencia de Capital</span>
+      <h2 class="section-title">¿Inyección plástica tradicional o Fabricación Aditiva?</h2>
+      <p class="section-lead">La industria tradicional te exige matrices de miles de dólares y meses de espera antes de validar la primera unidad. Nosotros quebramos esa barrera.</p>
+
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>Inyección Clásica</h3>
+          <ul class="comparison-list">
+            <li class="comparison-item bad">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span>Matriz de acero que cuesta entre USD 3.000 y USD 15.000 antes de empezar.</span>
+            </li>
+            <li class="comparison-item bad">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span>60 a 120 días de espera de mecanizado sin poder comercializar.</span>
+            </li>
+            <li class="comparison-item bad">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span>Imposible modificar el diseño si encontrás un error en la prueba real.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="comparison-card highlight">
+          <h3>Estudio Tresde</h3>
+          <ul class="comparison-list">
+            <li class="comparison-item good">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Cero costo de matriz:</strong> Inversión enfocada 100% en las piezas que necesitás hoy.</span>
+            </li>
+            <li class="comparison-item good">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Entrega rápida en días:</strong> De la idea al lote funcional listo para ensamblar.</span>
+            </li>
+            <li class="comparison-item good">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Iteración continua:</strong> Modificamos geometrías entre serie y serie sin penalización económica.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Soluciones de Ingeniería -->
+  <section class="section" id="soluciones">
+    <div class="container">
+      <span class="section-tag">Capacidades de Planta</span>
+      <h2 class="section-title">Diseñamos, escaneamos y producimos.</h2>
+      <p class="section-lead">Nos integramos como tu departamento externo de desarrollo y fabricación.</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div>
+            <div class="service-num">// 01</div>
+            <h4>Ingeniería Inversa & Escaneo 3D</h4>
+            <p>¿Tenés una pieza rota o importada descontinuada sin planos? La digitalizamos mediante escaneo tridimensional de precisión para fabricar réplicas exactas o mejoras funcionales.</p>
+          </div>
+          <div class="service-tags">
+            <span class="tag">Digitalización</span>
+            <span class="tag">Repuestos Críticos</span>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div>
+            <div class="service-num">// 02</div>
+            <h4>Series Cortas & Lotes Repetibles</h4>
+            <p>Producí desde 20 hasta miles de piezas finales para tu maquinaria, gabinetes o productos de consumo con repetibilidad milimétrica y trazabilidad de materiales.</p>
+          </div>
+          <div class="service-tags">
+            <span class="tag">Series de 50 a 5.000 un.</span>
+            <span class="tag">+20 Impresoras</span>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div>
+            <div class="service-num">// 03</div>
+            <h4>Diseño CAD & Optimización Aditiva</h4>
+            <p>Modelamos desde cero o adaptamos archivos existentes reforzando zonas de esfuerzo mecánico y optimizando la orientación de capas para máxima durabilidad.</p>
+          </div>
+          <div class="service-tags">
+            <span class="tag">CAD Paramétrico</span>
+            <span class="tag">Prototipado Rápido</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selector de Materiales de Ingeniería -->
+  <section class="section" id="materiales">
+    <div class="container">
+      <span class="section-tag">Fichas Técnicas</span>
+      <h2 class="section-title">El polímero exacto para cada exigencia.</h2>
+      <p class="section-lead">Cada aplicación requiere propiedades mecánicas y térmicas distintas. Te asesoramos clínicamente en la elección del filamento.</p>
+
+      <div class="materials-board">
+        <div class="materials-header">
+          <button class="mat-tab active" onclick="setMaterial('abs')">ABS</button>
+          <button class="mat-tab" onclick="setMaterial('petg')">PETG</button>
+          <button class="mat-tab" onclick="setMaterial('tpu')">TPU FLEX</button>
+          <button class="mat-tab" onclick="setMaterial('pcabs')">PC-ABS</button>
+          <button class="mat-tab" onclick="setMaterial('pla')">PLA</button>
+        </div>
+
+        <div class="material-content" id="mat-display">
+          <div>
+            <h3 class="mat-title" id="m-name">ABS (Acrilonitrilo Butadieno Estireno)</h3>
+            <p class="mat-desc" id="m-desc">Gran tenacidad y excelente resistencia a la temperatura. Es el material estándar para piezas de ingeniería mecánica y carcasas de uso cotidiano que demandan robustez frente a impactos.</p>
+            <a href="https://wa.me/5493515202895?text=Hola,%20quisiera%20consultar%20por%20fabricaci%C3%B3n%20en%20ABS." target="_blank" rel="noopener" class="btn-quote">Consultar por este material →</a>
+          </div>
+          <div class="mat-specs">
+            <div class="spec-row">
+              <span class="spec-label">Resistencia Térmica:</span>
+              <span class="spec-val" id="m-temp">Hasta 95°C</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Resistencia al Impacto:</span>
+              <span class="spec-val" id="m-impact">Muy Alta</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Aplicación Típica:</span>
+              <span class="spec-val" id="m-app">Piezas industriales / Ruedas / Soportes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <span class="section-tag">Preguntas Frecuentes</span>
+      <h2 class="section-title">Despejamos tus dudas operativas.</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Cuál es el mínimo de piezas que puedo encargar?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            No tenemos mínimos forzados. Fabricamos desde un prototipo unitario para validación técnica hasta series medianas de miles de unidades. Vos definís el ritmo según tu demanda.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Qué pasa si no tengo el archivo 3D de la pieza?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Podés traernos o enviarnos la pieza rota, un croquis con medidas o planos en papel. Nuestro equipo de diseño técnico se encarga del modelado CAD y el escaneo 3D necesario para materializarla.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿En qué formatos reciben los modelos para cotizar?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Trabajamos habitualmente con archivos .STEP, .STP, .STL, .OBJ o planos técnicos en .DXF / .PDF. Si lo tenés en otro software como SolidWorks o Fusion 360, podés exportarlo directamente en STEP.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Hacen entregas fuera de la ciudad de Córdoba?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Sí. Si bien nuestra planta y retiro presencial están en Av. Armada Argentina 3950 (Córdoba Capital), despachamos lotes y series técnicas embaladas a todo el país.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Box y Canales -->
+  <div class="container">
+    <div class="cta-box">
+      <h2>Transformá tus planos en piezas funcionales.</h2>
+      <p>Envianos tu archivo, plano o foto de la pieza. Evaluamos la geometría, te recomendamos el material adecuado y te enviamos la cotización en el día.</p>
+      
+      <div class="channels-grid">
+        <a href="https://wa.me/5493515202895?text=Hola%20Estudio%20Tresde,%20tengo%20un%20proyecto%20para%20cotizar." target="_blank" rel="noopener" class="channel-btn btn-wsp">
+          WhatsApp: +54 9 351 520 2895
+        </a>
+        <a href="https://www.linkedin.com/company/estudiotresde" target="_blank" rel="noopener" class="channel-btn btn-in">
+          LinkedIn Oficial
+        </a>
+        <a href="https://www.instagram.com/estudiotresde" target="_blank" rel="noopener" class="channel-btn btn-ig">
+          Instagram: @estudiotresde
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4>Estudio Tresde · Fabricación Aditiva</h4>
+          <p>Socio estratégico en Córdoba para la industria, empresas y desarrolladores. Diseño técnico, escaneo 3D y producción seriada con disponibilidad permanente de polímeros técnicos.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Ubicación & Contacto</h5>
+          <ul>
+            <li>Av. Armada Argentina 3950, Córdoba</li>
+            <li>contacto@estudiotresde.com</li>
+            <li>+54 9 351 520 2895</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Plataforma</h5>
+          <ul>
+            <li><a href="#soluciones">Ingeniería Inversa</a></li>
+            <li><a href="#materiales">Fichas de Polímeros</a></li>
+            <li><a href="#faq">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Estudio Tresde. Todos los derechos reservados. Córdoba, Argentina.</div>
+        <a href="https://www.josecarmuega.com" target="_blank" rel="noopener" class="badge-jc" title="Desarrollo y estrategia">
+          Sitio producido por JC
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const dataMateriales = {
+      abs: {
+        name: "ABS (Acrilonitrilo Butadieno Estireno)",
+        desc: "Gran tenacidad y excelente resistencia a la temperatura. Es el material estándar para piezas de ingeniería mecánica y carcasas de uso cotidiano que demandan robustez frente a impactos.",
+        temp: "Hasta 95°C",
+        impact: "Muy Alta",
+        app: "Piezas industriales / Ruedas / Soportes"
+      },
+      petg: {
+        name: "PETG (Polietileno Tereftalato Glicol)",
+        desc: "Combina la facilidad de fabricación con la resistencia mecánica del ABS. Alta resistencia al impacto, a los rayos UV e impermeable a fluidos y químicos.",
+        temp: "Hasta 75°C",
+        impact: "Alta y Ductil",
+        app: "Productos finales / Piezas exteriores / Envases"
+      },
+      tpu: {
+        name: "TPU - FLEX (Poliuretano Termoplástico)",
+        desc: "Alta elasticidad y memoria mecánica. Excelente resistencia al desgaste por rozamiento, a aceites y a la tracción, manteniendo propiedades mecánicas incluso en bajas temperaturas.",
+        temp: "Hasta 80°C",
+        impact: "Absorbe Golpes",
+        app: "Sellos / Fuelles / Amortiguadores / Empuñaduras"
+      },
+      pcabs: {
+        name: "PC-ABS (Policarbonato + ABS)",
+        desc: "Aleación de grado industrial que fusiona la resistencia térmica extrema del policarbonato con la ductilidad del ABS. Utilizado para piezas críticas sometidas a carga continua.",
+        temp: "Hasta 110°C",
+        impact: "Extrema",
+        app: "Industria automotriz / Gabinetes Ignífugos"
+      },
+      pla: {
+        name: "PLA (Ácido Poliláctico)",
+        desc: "Polímero rígido ideal para prototipado rápido de validación geométrica, maquetas y figuras con terminación superficial ultra detallada y tolerancias estrictas.",
+        temp: "Hasta 55°C",
+        impact: "Media",
+        app: "Prototipos visuales / Maquetas de verificación"
+      }
+    };
+
+    function setMaterial(key) {
+      document.querySelectorAll('.mat-tab').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      const item = dataMateriales[key];
+      document.getElementById('m-name').innerText = item.name;
+      document.getElementById('m-desc').innerText = item.desc;
+      document.getElementById('m-temp').innerText = item.temp;
+      document.getElementById('m-impact').innerText = item.impact;
+      document.getElementById('m-app').innerText = item.app;
+    }
+
+    function toggleFaq(btn) {
+      const parent = btn.parentElement;
+      parent.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
